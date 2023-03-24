@@ -101,7 +101,7 @@ class Bot:
         except ValueError:
             self.sending_messages(
                 user_id,
-                f" ValueError! VВведен не правильный числовой формат! Game over!",
+                f" ValueError! Введен не правильный числовой формат! Game over!",
             )
             return
 
