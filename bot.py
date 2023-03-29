@@ -105,9 +105,24 @@ class Bot:
             )
             return
 
-    def get_years_of_person(self, bdate: str) -> object:
+    def get_years_of_person(bdate: str) -> object:
         bdate_splited = bdate.split(".")
         month = ""
+        birth_date = {
+            "1": "января",
+            "2": "февраля",
+            "3": "марта",
+            "4": "апреля",
+            "5": "мая",
+            "6": "июня",
+            "7": "июля",
+            "8": "августа",
+            "9": "сентября",
+            "10": "октября",
+            "11": "ноября",
+            "12": "декабря",
+        }
+
         try:
             reverse_bdate = datetime.date(
                 int(bdate_splited[2]), int(bdate_splited[1]), int(bdate_splited[0])
@@ -115,37 +130,15 @@ class Bot:
             today = datetime.date.today()
             years = today.year - reverse_bdate.year
             if (
-                reverse_bdate.month >= today.month
-                and reverse_bdate.day > today.day
-                or reverse_bdate.month > today.month
+                    reverse_bdate.month >= today.month
+                    and reverse_bdate.day > today.day
+                    or reverse_bdate.month > today.month
             ):
                 years -= 1
             return self.naming_of_years(years, False)
         except IndexError:
-            if bdate_splited[1] == "1":
-                month = "января"
-            elif bdate_splited[1] == "2":
-                month = "февраля"
-            elif bdate_splited[1] == "3":
-                month = "марта"
-            elif bdate_splited[1] == "4":
-                month = "апреля"
-            elif bdate_splited[1] == "5":
-                month = "мая"
-            elif bdate_splited[1] == "6":
-                month = "июня"
-            elif bdate_splited[1] == "7":
-                month = "июля"
-            elif bdate_splited[1] == "8":
-                month = "августа"
-            elif bdate_splited[1] == "9":
-                month = "сентября"
-            elif bdate_splited[1] == "10":
-                month = "октября"
-            elif bdate_splited[1] == "11":
-                month = "ноября"
-            elif bdate_splited[1] == "12":
-                month = "декабря"
+            bdate_splited = ["31", "1"]
+            month = birth_date.get(bdate_splited[1])
             return f"День рождения {int(bdate_splited[0])} {month}."
 
     def get_age_of_user(self, user_id):
@@ -324,8 +317,8 @@ class Bot:
             "music, "
             "occupation",
         )
-        first_title = res[0]["first_title"]
-        last_title = res[0]["last_title"]
+        first_name = res[0]["first_name"]
+        last_name = res[0]["last_name"]
         age = self.get_years_of_person(res[0]["bdate"])
         vk_link = "vk.com/" + res[0]["domain"]
         city = ""
@@ -336,8 +329,8 @@ class Bot:
                 city = f'Город {res[0]["home_town"]}'
         except KeyError:
             pass
-        print(f"{first_title} {last_title}, {age}, {city}. {vk_link}")
-        return f"{first_title} {last_title}, {age}, {city}. {vk_link}"
+        print(f"{first_name} {last_name}, {age}, {city}. {vk_link}")
+        return f"{first_name} {last_name}, {age}, {city}. {vk_link}"
 
     def send_photo(self, user_id, message, attachments):
         try:

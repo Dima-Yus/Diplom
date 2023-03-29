@@ -3,10 +3,10 @@ from bot import bot
 from db import create_table_seen_person, delete_table_seen_person
 
 
-def eventis ():
+def chat_bot():
     for event in bot.longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            qrequest = event.text.lower()
+            request = event.text.lower()
             user_id = event.user_id
             if request == "поиск" or request == "f":
                 bot.get_age_of_user(user_id)
@@ -33,4 +33,7 @@ def eventis ():
                     f' "Удалить или D" - удаляет старую БД и создает новую. \n'
                     f' "Смотреть или S" - просмотр следующей записи в БД.',
                 )
-    eventis()
+
+
+chat_bot()
+
